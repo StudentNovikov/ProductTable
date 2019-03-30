@@ -21,8 +21,6 @@ let productArray = [
     new Product('вТовар 025', 2, 100)
 ];
 
-let displayedProductsArray = productArray;
-
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -36,12 +34,12 @@ function formatCurrency(price) {
     return formatter.format(price)
 }
 
-window.addEventListener("load", redrawTableBody(productArray));
+window.addEventListener("load", redrawTableBody());
 
-function redrawTableBody(prodArray) {
+function redrawTableBody() {
 
     tbody.textContent = '';
-    prodArray.forEach((product, id) => {
+    productArray.forEach((product, id) => {
         const tableRow = document.createElement('tr');
         const nameTd = document.createElement('td');
         const nameDiv = document.createElement('div');
@@ -107,7 +105,7 @@ function redrawTableBody(prodArray) {
 
 //Add or Update button
 document.getElementById('submitProduct').addEventListener('click', (e) => {
-
+    
     const name = document.getElementById('inputName').value;
     const count = document.getElementById('inputCount').value;
     let price = document.getElementById('inputPrice').value;
@@ -123,29 +121,22 @@ document.getElementById('submitProduct').addEventListener('click', (e) => {
         } else {
             productArray.push(new Product(name, count, price));
         }
-        redrawTableBody(productArray);
+        redrawTableBody();
         filterProducts(filter);
     }
     e.preventDefault();
 })
 
 function validate(name, count, price) {
-    resetValidation();
     let formInvalid = false;
-    if (!name.replace(/\s/g, '').length || name.length > 15) {
+    if (name.length == 0) {
+        document.getElementById('name-invalid-feedback').textContent = 'Имя не может быть пустым';
         document.getElementById('inputName').classList.add("is-invalid");
         formInvalid = true;
-    }
-
-    if (parseFloat(count) < 0) {
-        document.getElementById('inputCount').classList.add("is-invalid");
+    }     
+    if (!name.replace(/\s/g, '').length || name.length > 15 || parseFloat(count) < 0 || parseFloat(price) < 0) {
         formInvalid = true;
-    }
-
-    if (parseFloat(price) < 0) {
-        document.getElementById('inputPrice').classList.add("is-invalid");
-        formInvalid = true;
-    }
+    }   
 
     return formInvalid
 }
@@ -162,8 +153,8 @@ function cleanInputForm() {
     document.getElementById('inputPrice').value = '';
 }
 
-// 'Delete' button
 
+// 'Delete' button
 let idToDelete;
 
 document.querySelector('table').addEventListener('click', (e) => {
@@ -175,10 +166,9 @@ document.querySelector('table').addEventListener('click', (e) => {
 
 document.getElementById('deleteConfirmBtn').addEventListener('click', () => {
     removeProduct(idToDelete);
-    redrawTableBody(productArray);
+    redrawTableBody();
     filterProducts(filter);
     resetValidation();
-    e.preventDefault();
 })
 
 function removeProduct(id) {
@@ -201,12 +191,7 @@ document.querySelector('table').addEventListener('click', (e) => {
 document.getElementById('addNewBtn').addEventListener('click', () => {
     document.getElementById('submitProduct').textContent = 'Add';
     cleanInputForm();
-})
-
-document.getElementById('inputPrice').addEventListener('blur', () => {
-    let price = document.getElementById('inputPrice').value;
-    price = price.replace(/\$|,/g, "");
-    document.getElementById('inputPrice').value = formatCurrency(price);
+    resetValidation();
 })
 
 document.getElementById('searchBtn').addEventListener('click', (e) => {
@@ -232,7 +217,7 @@ document.getElementById('sortByName').addEventListener('click', (e) => {
     } else {
         productArray.sort((a, b) => a.name < b.name ? 1 : -1)
     }
-    redrawTableBody(productArray);
+    redrawTableBody();
     filterProducts(filter);
     e.preventDefault();
 })
@@ -244,7 +229,7 @@ document.getElementById('sortPrices').addEventListener('click', (e) => {
     } else {
         productArray.sort((a, b) => b.price - a.price);
     }
-    redrawTableBody(productArray);
+    redrawTableBody();
     filterProducts(filter);
     e.preventDefault();
 })
@@ -252,3 +237,41 @@ document.getElementById('sortPrices').addEventListener('click', (e) => {
 function toggleIcon(icon) {
     return (icon == triangleUpIcon) ? triangleDownIcon : triangleUpIcon
 }
+
+document.getElementById('inputName').addEventListener('blur', () => {
+    const name = document.getElementById('inputName').value;
+    let invalidMessage = '';
+    if (name.length == 0) {
+        invalidMessage = 'Имя не может быть пустым';
+    } else if (!name.replace(/\s/g, '').length) {
+        invalidMessage = 'Имя не может состоять исключительно из пробелов';
+    } else if (name.length > 15) {
+        invalidMessage = 'Имя не может быть более 15 символов';
+    }
+    if (invalidMessage != '') {
+        document.getElementById('name-invalid-feedback').textContent = invalidMessage;
+        document.getElementById('inputName').classList.add("is-invalid");
+    } else {
+        document.getElementById('inputName').classList.remove("is-invalid");
+    }
+})
+
+document.getElementById('inputCount').addEventListener('blur', () => {
+    const count = document.getElementById('inputCount').value;
+    if (parseFloat(count) < 0) {
+        document.getElementById('inputCount').classList.add("is-invalid");      
+    } else {
+        document.getElementById('inputCount').classList.remove("is-invalid");
+    }
+})
+
+document.getElementById('inputPrice').addEventListener('blur', () => {
+    let price = document.getElementById('inputPrice').value;
+    price = price.replace(/\$|,/g, "");
+    if (parseFloat(price) < 0) {
+        document.getElementById('inputPrice').classList.add("is-invalid");      
+    } else {
+        document.getElementById('inputPrice').classList.remove("is-invalid");
+    }
+    document.getElementById('inputPrice').value = formatCurrency(price);
+})

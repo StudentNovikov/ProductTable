@@ -22,8 +22,8 @@
                 </div>
                 <div class="col clearfix">
                     <button class="btn btn-outline-primary float-left" id="searchBtn">Search</button>
-                    <button class="btn btn-success float-right px-sm-4" data-toggle="modal"
-                        data-target="#submitModal" id="addNewBtn">Add New</button>
+                    <button class="btn btn-success float-right px-sm-4" data-toggle="modal" data-target="#submitModal"
+                        id="addNewBtn">Add New</button>
                 </div>
             </div>
 
@@ -63,8 +63,8 @@
                                     <div class="form-group col-8">
                                         <label for="inputName"> <span class="border border-success">Name:</span></label>
                                         <input type="text" class="form-control" id="inputName">
-                                        <div class="invalid-feedback">
-                                            Формат имени не подходит
+                                        <div class="invalid-feedback" id="name-invalid-feedback">
+
                                         </div>
                                     </div>
                                     <div class="form-group col-4">
@@ -77,14 +77,14 @@
                                     <label for="inputCount">Count:</label>
                                     <input type="number" class="form-control" id="inputCount">
                                     <div class="invalid-feedback">
-                                        Такое количество невозможно
+                                        Количество не может быть меньше 0
                                     </div>
                                 </div>
                                 <div class="form-group col-8">
                                     <label for="inputPrice">Price:</label>
                                     <input type="text" class="form-control" id="inputPrice">
                                     <div class="invalid-feedback">
-                                        Данная цена невозможна
+                                        Цена не может быть меньше 0
                                     </div>
                                 </div>
                                 <div class="form-group col-4 mt-4">
@@ -110,8 +110,9 @@
 
                     <div class="modal-body text-center">
                         <h5 class="mb-4">Are you sure you want to perform this action?</h5>
-                        <button class="btn btn-outline-danger px-5 mr-2" data-dismiss="modal" id="deleteConfirmBtn">Yes</button>
-                        <button class="btn btn-outline-secondary px-5 ml-2" data-dismiss="modal" >No</button>
+                        <button class="btn btn-outline-danger px-5 mr-2" data-dismiss="modal"
+                            id="deleteConfirmBtn">Yes</button>
+                        <button class="btn btn-outline-secondary px-5 ml-2" data-dismiss="modal">No</button>
                     </div>
                 </div>
             </div>
