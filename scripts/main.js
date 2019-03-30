@@ -67,9 +67,14 @@ function redrawTableBody(prodArray) {
         priceTd.textContent = formatCurrency(product.price);
 
         actionsButtonEdit.className = 'btn btn-outline-dark m-1 mr-lg-2 px-sm-4 btn-edit';
+        actionsButtonEdit.setAttribute('data-toggle', 'modal');
+        actionsButtonEdit.setAttribute('data-target', '#submitModal');
+
         actionsButtonEdit.textContent = 'Edit';
         actionsButtonDelete.className = 'btn btn-outline-danger m-1 ml-lg-2 px-sm-4 btn-delete';
         actionsButtonDelete.textContent = 'Delete';
+        actionsButtonDelete.setAttribute('data-toggle', 'modal');
+        actionsButtonDelete.setAttribute('data-target', '#deleteModal');
 
         actionsTd.appendChild(actionsButtonEdit);
         actionsTd.appendChild(actionsButtonDelete);
@@ -114,7 +119,7 @@ document.getElementById('submitProduct').addEventListener('click', (e) => {
         if (e.target.textContent == 'Update') {
             removeProduct(productUpdatingId);
             productArray.push(new Product(name, count, price));
-            productUpdatingId = productArray.length - 1; 
+            productUpdatingId = productArray.length - 1;
         } else {
             productArray.push(new Product(name, count, price));
         }
@@ -158,20 +163,21 @@ function cleanInputForm() {
 }
 
 // 'Delete' button
+
+let idToDelete;
+
 document.querySelector('table').addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-delete')) {
-        if (confirm('Вы уверены что хотите удалить этот продукт?')) {
-            const id = e.target.parentNode.parentNode.getAttribute('id');
-            if (id == productUpdatingId) {
-                cleanInputForm();
-                document.getElementById('submitProduct').textContent = 'Add';
-            }
-            removeProduct(id);
-            redrawTableBody(productArray);
-            filterProducts(filter);
-            resetValidation();
-        }
+        idToDelete = e.target.parentNode.parentNode.getAttribute('id');
     }
+    e.preventDefault();
+})
+
+document.getElementById('deleteConfirmBtn').addEventListener('click', () => {
+    removeProduct(idToDelete);
+    redrawTableBody(productArray);
+    filterProducts(filter);
+    resetValidation();
     e.preventDefault();
 })
 

@@ -22,9 +22,9 @@
                 </div>
                 <div class="col clearfix">
                     <button class="btn btn-outline-primary float-left" id="searchBtn">Search</button>
-                    <button class="btn btn-success float-right px-sm-4" id="addNewBtn">Add New</button>
+                    <button class="btn btn-success float-right px-sm-4" data-toggle="modal"
+                        data-target="#submitModal" id="addNewBtn">Add New</button>
                 </div>
-
             </div>
 
             <table class="table table-bordered text-center">
@@ -47,43 +47,77 @@
                     <!-- Products -->
                 </tbody>
             </table>
-
-            <form id="inputForm" class="mt-4">
-                <div class="form-row">
-                    <div class="form-group col-sm-4">
-                        <label for="inputName"> <span class="border border-success">Name:</span> • <span
-                                class="text-muted"> Required field </span></label>
-                        <input type="text" class="form-control" id="inputName">
-                        <div class="invalid-feedback">
-                            Формат имени не подходит
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <label for="inputCount">Count</label>
-                        <input type="number" class="form-control" id="inputCount">
-                        <div class="invalid-feedback">
-                            Такое количество невозможно
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-3">
-                        <label for="inputPrice">Price</label>
-                        <input type="text" class="form-control" id="inputPrice">
-                        <div class="invalid-feedback">
-                            Данная цена невозможна
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-3">
-                        <label for="inputPrice">&nbsp;</label>
-                        <button class="btn btn-block btn-outline-primary" id="submitProduct">Add</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </section>
 
+    <section id="inputModule">
+        <!-- SUBMIT MODAL -->
+        <div class="modal" id="submitModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <div class="mt-5">
+                            <form id="inputForm">
+                                <div class="form-row col">
+                                    <div class="form-group col-8">
+                                        <label for="inputName"> <span class="border border-success">Name:</span></label>
+                                        <input type="text" class="form-control" id="inputName">
+                                        <div class="invalid-feedback">
+                                            Формат имени не подходит
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="inputName">&nbsp;</label>
+                                        <p class="mt-1"> <span class="text-muted"> • Required field </span> </p>
+                                    </div>
+                                </div>
 
+                                <div class="form-group col-3">
+                                    <label for="inputCount">Count:</label>
+                                    <input type="number" class="form-control" id="inputCount">
+                                    <div class="invalid-feedback">
+                                        Такое количество невозможно
+                                    </div>
+                                </div>
+                                <div class="form-group col-8">
+                                    <label for="inputPrice">Price:</label>
+                                    <input type="text" class="form-control" id="inputPrice">
+                                    <div class="invalid-feedback">
+                                        Данная цена невозможна
+                                    </div>
+                                </div>
+                                <div class="form-group col-4 mt-4">
+                                    <button class="btn btn-block btn-outline-primary" id="submitProduct">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
 
+    <section id="deleteModule">
+        <!-- DELETE MODAL -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title mx-auto">Are you sure?</h3>
+                    </div>
 
+                    <div class="modal-body text-center">
+                        <h5 class="mb-4">Are you sure you want to perform this action?</h5>
+                        <button class="btn btn-outline-danger px-5 mr-2" data-dismiss="modal" id="deleteConfirmBtn">Yes</button>
+                        <button class="btn btn-outline-secondary px-5 ml-2" data-dismiss="modal" >No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
