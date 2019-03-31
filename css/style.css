@@ -21,13 +21,6 @@
     width: 15% !important;
 }
 
-@media (min-width: 576px) {
-    .px-sm-4 {
-        padding-left: 1.5rem !important;
-        padding-right: 1.5rem !important;
-    }
-}
-
 @media (min-width: 768px) {
     .ml-md-3 {
         margin-left: 1rem !important;
@@ -35,6 +28,11 @@
 }
 
 @media (min-width: 992px) {
+    .px-lg-4 {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
     .mr-lg-2 {
         margin-right: 0.5rem !important;
     }

@@ -48,7 +48,12 @@ function redrawTableBody() {
         const priceTd = document.createElement('td');
         const actionsTd = document.createElement('td');
         const actionsButtonEdit = document.createElement('button');
+        const actionsButtonEditSpan = document.createElement('span');
+        const actionsButtonEditIcon = document.createElement('i');
         const actionsButtonDelete = document.createElement('button');
+        const actionsButtonDeleteSpan = document.createElement('span');
+        const actionsButtonDeleteIcon = document.createElement('i');
+
 
         nameTd.className = 'text-left';
         nameDiv.className = 'ml-2 ml-md-3 d-flex justify-content-between align-items-center';
@@ -64,15 +69,23 @@ function redrawTableBody() {
 
         priceTd.textContent = formatCurrency(product.price);
 
-        actionsButtonEdit.className = 'btn btn-outline-dark m-1 mr-lg-2 px-sm-4 btn-edit';
+        actionsButtonEdit.className = 'btn btn-outline-dark m-1 mr-lg-2 px-lg-4 btn-edit';
         actionsButtonEdit.setAttribute('data-toggle', 'modal');
         actionsButtonEdit.setAttribute('data-target', '#submitModal');
-
-        actionsButtonEdit.textContent = 'Edit';
-        actionsButtonDelete.className = 'btn btn-outline-danger m-1 ml-lg-2 px-sm-4 btn-delete';
-        actionsButtonDelete.textContent = 'Delete';
+        actionsButtonEditSpan.className = 'd-none d-lg-block';
+        actionsButtonEditSpan.textContent = 'Edit';
+        actionsButtonEdit.appendChild(actionsButtonEditSpan);
+        actionsButtonEditIcon.className = 'd-lg-none d-xl-none far fa-edit';
+        actionsButtonEdit.appendChild(actionsButtonEditIcon);
+       
+        actionsButtonDelete.className = 'btn btn-outline-danger m-1 ml-lg-2 px-lg-4 btn-delete';
         actionsButtonDelete.setAttribute('data-toggle', 'modal');
         actionsButtonDelete.setAttribute('data-target', '#deleteModal');
+        actionsButtonDeleteSpan.className = 'd-none d-lg-block';
+        actionsButtonDeleteSpan.textContent = 'Delete';
+        actionsButtonDelete.appendChild(actionsButtonDeleteSpan);
+        actionsButtonDeleteIcon.className = 'd-lg-none d-xl-none fa fa-trash';
+        actionsButtonDelete.appendChild(actionsButtonDeleteIcon);
 
         actionsTd.appendChild(actionsButtonEdit);
         actionsTd.appendChild(actionsButtonDelete);
@@ -123,6 +136,7 @@ document.getElementById('submitProduct').addEventListener('click', (e) => {
         }
         redrawTableBody();
         filterProducts(filter);
+        $('#submitModal').modal('hide');
     }
     e.preventDefault();
 })
@@ -153,7 +167,6 @@ function cleanInputForm() {
     document.getElementById('inputPrice').value = '';
 }
 
-
 // 'Delete' button
 let idToDelete;
 
@@ -179,6 +192,7 @@ function removeProduct(id) {
 document.querySelector('table').addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-edit')) {
         productUpdatingId = e.target.parentNode.parentNode.getAttribute('id');
+        console.log(productUpdatingId);
         document.getElementById('inputName').value = productArray[productUpdatingId].name;
         document.getElementById('inputCount').value = productArray[productUpdatingId].count;
         document.getElementById('inputPrice').value = formatCurrency(productArray[productUpdatingId].price);
@@ -239,6 +253,7 @@ function toggleIcon(icon) {
 }
 
 document.getElementById('inputName').addEventListener('blur', () => {
+    document.getElementById('nameLabel').classList.remove('border','border-success');
     const name = document.getElementById('inputName').value;
     let invalidMessage = '';
     if (name.length == 0) {
@@ -257,6 +272,7 @@ document.getElementById('inputName').addEventListener('blur', () => {
 })
 
 document.getElementById('inputCount').addEventListener('blur', () => {
+    document.getElementById('countLabel').classList.remove('border','border-success');
     const count = document.getElementById('inputCount').value;
     if (parseFloat(count) < 0) {
         document.getElementById('inputCount').classList.add("is-invalid");      
@@ -266,6 +282,7 @@ document.getElementById('inputCount').addEventListener('blur', () => {
 })
 
 document.getElementById('inputPrice').addEventListener('blur', () => {
+    document.getElementById('priceLabel').classList.remove('border','border-success');
     let price = document.getElementById('inputPrice').value;
     price = price.replace(/\$|,/g, "");
     if (parseFloat(price) < 0) {
@@ -274,4 +291,16 @@ document.getElementById('inputPrice').addEventListener('blur', () => {
         document.getElementById('inputPrice').classList.remove("is-invalid");
     }
     document.getElementById('inputPrice').value = formatCurrency(price);
+})
+
+document.getElementById('inputName').addEventListener('focus', () => {
+    document.getElementById('nameLabel').classList.add('border','border-success');
+})
+
+document.getElementById('inputCount').addEventListener('focus', () => {
+    document.getElementById('countLabel').classList.add('border','border-success');
+})
+
+document.getElementById('inputPrice').addEventListener('focus', () => {
+    document.getElementById('priceLabel').classList.add('border','border-success');
 })
